@@ -11,7 +11,7 @@ export default function App() {
   const [points, setPoints] = useState(0);
   const [disable, setDisable] = useState(false);
   const [hint, setHint] = useState(false);
-  const [selectMode, setSelectMode] = useState(true);
+  const [selectMode, setSelectMode] = useState(false);
   const [value, setValue] = useState<number>(0);
 
   async function getMovie(): Promise<Movie> {
@@ -83,14 +83,14 @@ export default function App() {
     setHint(false);
   }
   function setDifficulty(value: number) {
-    setSelectMode(false);
+    setSelectMode(true);
     setValue(value);
     console.log(value);
   }
   return (
     <section className="m-auto gap-4 p-4 max-w-screen-lg grid min-h-screen grid-rows-[70px,1fr,30px] w-[500px] text-center relative">
       <header className="grid content-center">
-        <h1 className="font-bold">GUESS WITH A MOVIE</h1>
+        <h1 className="font-bold">GUESS THE MOVIE</h1>
         <button
           onClick={() => window.location.reload()}
           className={`absolute top-10 left-4 py-1 px-2 font-normal ${
@@ -101,7 +101,7 @@ export default function App() {
         </button>
       </header>
       <main>
-        {selectMode ? (
+        {!selectMode ? (
           <SelectMode setDifficulty={setDifficulty} />
         ) : (
           <article>
@@ -129,7 +129,7 @@ export default function App() {
                 name="partial"
               />
               <button type="submit" className="my-4">
-                Send
+                Validate
               </button>
             </form>
             <div className="h-[150px] overflow-y-auto border-solid border border-gray-500 p-1">
@@ -138,7 +138,12 @@ export default function App() {
           </article>
         )}
       </main>
-      <footer>{`ayuda : ${movies?.name}`}</footer>
+      <footer>
+        <span>{selectMode ? `Help put mouse on here -->  ` : ''}</span>
+        <span className="opacity-0 hover:opacity-100 text-red-700  font-bold">
+          {movies?.name}
+        </span>
+      </footer>
     </section>
   );
 }
